@@ -1,0 +1,5 @@
+dataset,initial_candidates,removed_no_clean_evidence,removed_no_polluted_image_evidence,removed_before_package,removed_unusable_packaged_image,usable_packaged_questions,not_selected_by_eval_cap,final_evaluated_questions,eval_cap,missing_package_qids
+LongFact,250,0,0,2,0,248,198,50,50,129 137
+Biography,183,0,0,1,0,182,162,20,20,9
+AlpacaFact,233,0,0,2,0,231,211,20,20,122 125
+FAVA,100,0,0,0,0,100,80,20,20,

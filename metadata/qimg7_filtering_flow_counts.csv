@@ -1,0 +1,9 @@
+stage,count,note
+Initial raw candidate questions,766,Raw multimodal candidate pools before QIMG7 packaging.
+Removed: no clean image evidence,0,Questions with no usable clean image entry in the raw pool.
+Removed: no polluted image evidence,0,Questions with no generated polluted image entries in the raw pool.
+Removed: omitted before QIMG7 package,5,Raw question ids absent from the packaged QIMG7 CSVs after attack construction.
+Removed: unusable packaged image,0,Packaged questions missing at least one usable local/URL image attack.
+Usable packaged QIMG7 questions,761,Questions with all seven QIMG7 attacks available and usable.
+Not selected by evaluation cap,651,"Deliberate paper-budget cap: LongFact 50, others 20 each."
+Final evaluated questions,110,Questions used in the main QIMG7 paper runs.

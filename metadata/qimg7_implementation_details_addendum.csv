@@ -1,0 +1,18 @@
+component,setting,value
+Answer generation,backend,OpenAI Responses API for main OpenAI runs; chat-compatible backend for local/OpenAI-compatible VLM servers
+Answer generation,temperature,Not explicitly set for Responses backend; chat-compatible backend uses temperature=0.0
+Answer generation,max output tokens,Not explicitly capped for Responses backend; chat-compatible backend uses max_tokens=512
+Answer generation,answer length control,Prompt asks for 3-6 sentences focused on factual accuracy
+Judge,backend,OpenAI Responses API for main gpt-4o-mini judge and second-judge audits
+Judge,temperature,Not explicitly set for Responses backend; chat-compatible judge branch uses temperature=0.0
+Judge,max output tokens,Not explicitly capped for Responses backend; chat-compatible judge branch uses max_tokens=256
+Judge,evidence shown,Trusted clean text evidence and clean image metadata for the same qid; attacked image pixels and polluted retrieval context are not shown
+Self-check gate,temperature and max output,Chat Completions temperature=0.0; max_tokens=256
+Triage gate,temperature and max output,Chat Completions temperature=0.0; max_tokens=256
+SATR source-aware resolver,temperature and max output,Chat Completions temperature=0.0; max_tokens=512
+Final Field-Selector / Soft-Conductor,LLM use,Deterministic post-processing of SATR resolver outputs; no extra LLM call
+Image input,count per benchmark row,One selected image evidence item is sent per row when pixels are enabled
+Image preprocessing,local files,Local images are read as bytes and sent as base64 data URLs with guessed MIME type; no resizing/cropping/recompression is applied by the inference script
+Image preprocessing,remote files,Remote images are passed as URLs by default; if rejected by the API they may be fetched client-side up to 20 MB and sent as data URLs; otherwise the run falls back to metadata-only
+Image preprocessing,OpenAI detail setting,Responses image inputs use detail=auto
+Packaged local image resolution,observed dimensions,"7,774 local attack images; adversarial patches are 512x512; other local attacks have median dimensions around 900x720 (image_blend median 922x760); no inference-time resizing"
