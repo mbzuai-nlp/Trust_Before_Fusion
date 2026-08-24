@@ -1,0 +1,2 @@
+n,exact_label_agreement,mean_absolute_score_difference,cohen_kappa,quadratic_weighted_kappa
+96,0.812500,0.096354,0.641494,0.767533

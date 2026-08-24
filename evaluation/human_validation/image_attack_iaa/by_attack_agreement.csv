@@ -1,0 +1,22 @@
+pollution_type,field,n,cohen_kappa,ci_low,ci_high,raw_agreement,note
+adversarial_patch,on_topic,8,,,,0.500000,kappa undefined (A2 constant='yes')
+adversarial_patch,fact_flipped,8,0.789474,0.360000,1.000000,0.875000,
+adversarial_patch,plausible,8,1.000000,1.000000,1.000000,1.000000,
+caption_flip,on_topic,8,,,,1.000000,"kappa undefined (A1 constant='yes', A2 constant='yes')"
+caption_flip,fact_flipped,8,1.000000,1.000000,1.000000,1.000000,
+caption_flip,plausible,8,,,,1.000000,"kappa undefined (A1 constant='yes', A2 constant='yes')"
+entity_swap,on_topic,8,1.000000,1.000000,1.000000,1.000000,
+entity_swap,fact_flipped,8,0.428571,0.238095,1.000000,0.750000,
+entity_swap,plausible,8,1.000000,1.000000,1.000000,1.000000,
+figstep_typography,on_topic,8,,,,1.000000,"kappa undefined (A1 constant='yes', A2 constant='yes')"
+figstep_typography,fact_flipped,8,,,,0.875000,kappa undefined (A1 constant='yes')
+figstep_typography,plausible,8,,,,1.000000,"kappa undefined (A1 constant='yes', A2 constant='yes')"
+image_blend,on_topic,8,0.750000,0.333333,1.000000,0.875000,
+image_blend,fact_flipped,8,,,,0.875000,kappa undefined (A2 constant='yes')
+image_blend,plausible,8,,,,0.750000,kappa undefined (A1 constant='no')
+neural_style_transfer,on_topic,8,,,,1.000000,"kappa undefined (A1 constant='yes', A2 constant='yes')"
+neural_style_transfer,fact_flipped,8,0.384615,0.157895,1.000000,0.750000,
+neural_style_transfer,plausible,8,0.714286,0.250000,1.000000,0.875000,
+semantic_entity_rewrite,on_topic,8,,,,1.000000,"kappa undefined (A1 constant='yes', A2 constant='yes')"
+semantic_entity_rewrite,fact_flipped,8,,,,1.000000,"kappa undefined (A1 constant='yes', A2 constant='yes')"
+semantic_entity_rewrite,plausible,8,,,,0.625000,kappa undefined (A1 constant='yes')

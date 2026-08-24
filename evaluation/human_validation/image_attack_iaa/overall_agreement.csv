@@ -1,0 +1,4 @@
+field,label,n,annotator_1_yes_rate,annotator_2_yes_rate,cohen_kappa,ci_low,ci_high,raw_agreement,note
+on_topic,On-topic,56,0.785714,0.875000,0.699893,0.396552,0.923840,0.910714,
+fact_flipped,Fact flipped,56,0.732143,0.821429,0.660312,0.390744,0.868860,0.875000,
+plausible,Visually plausible,56,0.660714,0.660714,0.778218,0.584906,0.928674,0.892857,

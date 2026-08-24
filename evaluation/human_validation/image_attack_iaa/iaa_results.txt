@@ -1,0 +1,135 @@
+
+Annotator 1: evaluation/human_validation/image_attack_iaa/annotator_1.csv  (56 rows)
+Annotator 2: evaluation/human_validation/image_attack_iaa/annotator_2.csv  (56 rows)
+Shared row_ids: 56  |  only in A1: 0  |  only in A2: 0
+
+────────────────────────────────────────────────────────────
+LABEL DISTRIBUTIONS (sanity check for constant-rater issues)
+────────────────────────────────────────────────────────────
+  On-topic
+    A1: {'yes': 44, 'no': 7, 'unclear': 5}
+    A2: {'yes': 49, 'no': 6, 'unclear': 1}
+  Fact flipped
+    A1: {'yes': 41, 'unclear': 11, 'no': 4}
+    A2: {'yes': 46, 'unclear': 8, 'no': 2}
+  Visually plausible
+    A1: {'yes': 37, 'no': 15, 'unclear': 4}
+    A2: {'yes': 37, 'no': 16, 'unclear': 3}
+
+────────────────────────────────────────────────────────────
+OVERALL AGREEMENT
+────────────────────────────────────────────────────────────
+Field                           Kappa            95% CI    Agree      n  Interpretation
+---------------------------------------------------------------------------------------
+On-topic                        0.700   [+0.397,+0.924]    91.1%     56  substantial
+Fact flipped                    0.660   [+0.391,+0.869]    87.5%     56  substantial
+Visually plausible              0.778   [+0.585,+0.929]    89.3%     56  substantial
+
+────────────────────────────────────────────────────────────
+BY POLLUTION TYPE
+
+  adversarial_patch  (n=8)
+  Field                           Kappa            95% CI    Agree      n  Interpretation
+  ---------------------------------------------------------------------------------------
+    On-topic                        N/A               N/A    50.0%      8  kappa undefined (A2 constant='yes')
+    Fact flipped                  0.789   [+0.360,+1.000]    87.5%      8  substantial
+    Visually plausible            1.000   [+1.000,+1.000]   100.0%      8  almost perfect
+
+  caption_flip  (n=8)
+  Field                           Kappa            95% CI    Agree      n  Interpretation
+  ---------------------------------------------------------------------------------------
+    On-topic                        N/A               N/A   100.0%      8  kappa undefined (A1 constant='yes', A2 constant='yes')
+    Fact flipped                  1.000   [+1.000,+1.000]   100.0%      8  almost perfect
+    Visually plausible              N/A               N/A   100.0%      8  kappa undefined (A1 constant='yes', A2 constant='yes')
+
+  entity_swap  (n=8)
+  Field                           Kappa            95% CI    Agree      n  Interpretation
+  ---------------------------------------------------------------------------------------
+    On-topic                      1.000   [+1.000,+1.000]   100.0%      8  almost perfect
+    Fact flipped                  0.429   [+0.238,+1.000]    75.0%      8  moderate
+    Visually plausible            1.000   [+1.000,+1.000]   100.0%      8  almost perfect
+
+  figstep_typography  (n=8)
+  Field                           Kappa            95% CI    Agree      n  Interpretation
+  ---------------------------------------------------------------------------------------
+    On-topic                        N/A               N/A   100.0%      8  kappa undefined (A1 constant='yes', A2 constant='yes')
+    Fact flipped                    N/A               N/A    87.5%      8  kappa undefined (A1 constant='yes')
+    Visually plausible              N/A               N/A   100.0%      8  kappa undefined (A1 constant='yes', A2 constant='yes')
+
+  image_blend  (n=8)
+  Field                           Kappa            95% CI    Agree      n  Interpretation
+  ---------------------------------------------------------------------------------------
+    On-topic                      0.750   [+0.333,+1.000]    87.5%      8  substantial
+    Fact flipped                    N/A               N/A    87.5%      8  kappa undefined (A2 constant='yes')
+    Visually plausible              N/A               N/A    75.0%      8  kappa undefined (A1 constant='no')
+
+  neural_style_transfer  (n=8)
+  Field                           Kappa            95% CI    Agree      n  Interpretation
+  ---------------------------------------------------------------------------------------
+    On-topic                        N/A               N/A   100.0%      8  kappa undefined (A1 constant='yes', A2 constant='yes')
+    Fact flipped                  0.385   [+0.158,+1.000]    75.0%      8  fair
+    Visually plausible            0.714   [+0.250,+1.000]    87.5%      8  substantial
+
+  semantic_entity_rewrite  (n=8)
+  Field                           Kappa            95% CI    Agree      n  Interpretation
+  ---------------------------------------------------------------------------------------
+    On-topic                        N/A               N/A   100.0%      8  kappa undefined (A1 constant='yes', A2 constant='yes')
+    Fact flipped                    N/A               N/A   100.0%      8  kappa undefined (A1 constant='yes', A2 constant='yes')
+    Visually plausible              N/A               N/A    62.5%      8  kappa undefined (A1 constant='yes')
+
+────────────────────────────────────────────────────────────
+BY DATASET
+
+  AlpacaFact  (n=14)
+  Field                           Kappa            95% CI    Agree      n  Interpretation
+  ---------------------------------------------------------------------------------------
+    On-topic                      0.825   [+0.440,+1.000]    92.9%     14  almost perfect
+    Fact flipped                  0.632   [+0.323,+1.000]    92.9%     14  substantial
+    Visually plausible            0.600   [+0.253,+1.000]    85.7%     14  substantial
+
+  Biography  (n=14)
+  Field                           Kappa            95% CI    Agree      n  Interpretation
+  ---------------------------------------------------------------------------------------
+    On-topic                        N/A               N/A    85.7%     14  kappa undefined (A2 constant='yes')
+    Fact flipped                  0.494   [+0.186,+1.000]    78.6%     14  moderate
+    Visually plausible            0.879   [+0.567,+1.000]    92.9%     14  almost perfect
+
+  FAVA  (n=14)
+  Field                           Kappa            95% CI    Agree      n  Interpretation
+  ---------------------------------------------------------------------------------------
+    On-topic                      0.759   [+0.348,+1.000]    92.9%     14  substantial
+    Fact flipped                  0.689   [+0.282,+1.000]    85.7%     14  substantial
+    Visually plausible            0.811   [+0.440,+1.000]    92.9%     14  almost perfect
+
+  LongFact  (n=14)
+  Field                           Kappa            95% CI    Agree      n  Interpretation
+  ---------------------------------------------------------------------------------------
+    On-topic                      0.767   [+0.417,+1.000]    92.9%     14  substantial
+    Fact flipped                  0.811   [+0.429,+1.000]    92.9%     14  almost perfect
+    Visually plausible            0.741   [+0.364,+1.000]    85.7%     14  substantial
+
+────────────────────────────────────────────────────────────
+DISAGREEMENTS (any field differs)
+  16 / 56 items have at least one disagreement
+
+  row_id                                        Field              A1      A2
+  --------------------------------------------------------------------------------
+  FAVA_q87_i0_entity_swap                       Fact flipped       no      yes
+  FAVA_q33_i1_entity_swap                       Fact flipped       no      yes
+  FAVA_q44_i0_image_blend                       On-topic           no      yes
+  FAVA_q44_i0_image_blend                       Visually plausible no      yes
+  Biography_q172_i0_semantic_entity_rewrite     Visually plausible yes     no
+  Biography_q99_i1_adversarial_patch            On-topic           unclear yes
+  Biography_q2_i0_adversarial_patch             On-topic           unclear yes
+  Biography_q2_i0_adversarial_patch             Fact flipped       unclear yes
+  Biography_q110_i1_image_blend                 Fact flipped       unclear yes
+  Biography_q16_i0_neural_style_transfer        Fact flipped       unclear yes
+  AlpacaFact_q35_i0_image_blend                 Visually plausible no      yes
+  AlpacaFact_q178_i0_neural_style_transfer      Visually plausible unclear yes
+  AlpacaFact_q109_i1_figstep_typography         Fact flipped       yes     unclear
+  AlpacaFact_q108_i0_adversarial_patch          On-topic           unclear yes
+  LongFact_q116_i1_adversarial_patch            On-topic           unclear yes
+  LongFact_q40_i0_semantic_entity_rewrite       Visually plausible yes     no
+  LongFact_q132_i0_neural_style_transfer        Fact flipped       unclear yes
+  LongFact_q233_i1_semantic_entity_rewrite      Visually plausible yes     no
+

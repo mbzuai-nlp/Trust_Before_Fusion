@@ -1,0 +1,4 @@
+method,n,clean_text_score,polluted_text_score,drop,balanced_score,gpt_exact_label_agreement
+full_mm,32,0.921875,0.406250,0.515625,0.664062,0.781250
+answer_consensus,32,0.921875,0.375000,0.546875,0.648438,0.812500
+field_selector,32,0.921875,0.750000,0.171875,0.835938,0.843750
