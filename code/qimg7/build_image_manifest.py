@@ -28,7 +28,7 @@ def str_or_empty(x):
         return ""
     return str(x)
 
-def img_obj_from_row(r, pkg, clean=False):
+def img_obj_from_row(r, image_root, clean=False):
     if clean:
         url = str_or_empty(r["original_image_url"])
         alt = str_or_empty(r["original_alt"])
@@ -40,7 +40,7 @@ def img_obj_from_row(r, pkg, clean=False):
         ptype = str_or_empty(r["pollution_type"])
         rel = str_or_empty(r.get("polluted_image_path", ""))
         if rel:
-            full = pkg / rel
+            full = image_root / rel
             path = str(full.resolve()) if full.exists() else str(full)
         else:
             path = ""
@@ -66,13 +66,13 @@ def img_obj_from_row(r, pkg, clean=False):
         }
     }
 
-def usable_polluted(r, pkg, require_local=True):
+def usable_polluted(r, image_root, require_local=True):
     ptype = str_or_empty(r["pollution_type"])
     if ptype in LOCAL_REQUIRED:
         rel = str_or_empty(r.get("polluted_image_path", ""))
         if not rel:
             return False
-        if require_local and not (pkg / rel).exists():
+        if require_local and not (image_root / rel).exists():
             return False
         return True
     return bool(str_or_empty(r["polluted_image_url"]))
@@ -80,6 +80,11 @@ def usable_polluted(r, pkg, require_local=True):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--package_dir", required=True)
+    ap.add_argument(
+        "--image_root",
+        default="",
+        help="Base directory for repository-relative polluted_image_path values (defaults to package_dir)",
+    )
     ap.add_argument("--dataset", required=True)
     ap.add_argument("--output_jsonl", required=True)
     ap.add_argument("--attacks", nargs="+", default=ALL_ATTACKS)
@@ -89,6 +94,7 @@ def main():
     args = ap.parse_args()
 
     pkg = Path(args.package_dir)
+    image_root = Path(args.image_root) if args.image_root else pkg
     csv_path = pkg / f"{args.dataset}_query_image_polluted.csv"
     if not csv_path.exists():
         raise SystemExit(f"CSV not found: {csv_path}")
@@ -106,7 +112,7 @@ def main():
         for _, r in g.iterrows():
             img_idx = int(r["image_idx"])
             if img_idx not in clean_by_img:
-                clean_by_img[img_idx] = img_obj_from_row(r, pkg, clean=True)
+                clean_by_img[img_idx] = img_obj_from_row(r, image_root, clean=True)
 
         clean = [clean_by_img[k] for k in sorted(clean_by_img)[:args.max_clean_per_question]]
 
@@ -115,12 +121,12 @@ def main():
             ptype = str_or_empty(r["pollution_type"])
             if ptype not in attacks:
                 continue
-            if not usable_polluted(r, pkg, require_local=(not args.allow_missing_local)):
+            if not usable_polluted(r, image_root, require_local=(not args.allow_missing_local)):
                 skipped_missing_local += 1
                 continue
             if len(polluted[ptype]) >= args.max_polluted_per_attack:
                 continue
-            polluted[ptype].append(img_obj_from_row(r, pkg, clean=False))
+            polluted[ptype].append(img_obj_from_row(r, image_root, clean=False))
 
         out_rows.append({
             "dataset": args.dataset,

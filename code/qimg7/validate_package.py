@@ -27,10 +27,16 @@ LOCAL_REQUIRED = {
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--package_dir", required=True)
+    ap.add_argument(
+        "--image_root",
+        default="",
+        help="Base directory for repository-relative polluted_image_path values (defaults to package_dir)",
+    )
     ap.add_argument("--strict_local_paths", action="store_true")
     args = ap.parse_args()
 
     pkg = Path(args.package_dir)
+    image_root = Path(args.image_root) if args.image_root else pkg
     if not pkg.exists():
         raise SystemExit(f"Package dir not found: {pkg}")
 
@@ -66,7 +72,7 @@ def main():
             if pd.isna(rel) or not str(rel).strip():
                 missing_paths.append(("EMPTY", r["pollution_type"], r["question_idx"], r["image_idx"]))
                 continue
-            p = pkg / str(rel)
+            p = image_root / str(rel)
             if p.exists():
                 existing_paths += 1
             else:
