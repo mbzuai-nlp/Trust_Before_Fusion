@@ -1,0 +1,25 @@
+QIMG-7 Dataset Material License
+
+Copyright (c) 2026 Saadeldine Eletter, Owais Aijaz, and Preslav Nakov
+
+QIMG-7 annotations, captions, and metadata are licensed under the Creative
+Commons Attribution 4.0 International License (CC BY 4.0).
+
+You are free to:
+
+  - Share — copy and redistribute the material in any medium or format.
+  - Adapt — remix, transform, and build upon the material for any purpose.
+
+Under the following terms:
+
+  - Attribution — You must give appropriate credit, provide a link to the
+    license, and indicate if changes were made.
+
+The complete license terms are available at:
+https://creativecommons.org/licenses/by/4.0/legalcode
+
+The polluted images are derivative works of publicly available source images
+identified by the original_image_url field. They are not relicensed under CC BY
+4.0 by this repository and remain subject to the licenses and terms of their
+original sources. Material originating from upstream datasets remains subject
+to its applicable source license.
