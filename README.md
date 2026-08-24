@@ -6,8 +6,9 @@ image evidence retrieved alongside the query is adversarially manipulated using
 **seven distinct attack types (T1–T7)**, producing polluted image–caption records
 that test the robustness of vision-language models and multimodal retrievers.
 
-> Anonymized release for peer review. All author- and institution-identifying
-> information has been removed.
+Authors: [Saadeldine Eletter](https://openreview.net/profile?id=~Saadeldine_Eletter1),
+[Owais Aijaz](https://openreview.net/profile?id=~Owais_Aijaz1), and
+[Preslav Nakov](https://openreview.net/profile?id=~Preslav_Nakov2).
 
 ---
 
@@ -53,7 +54,31 @@ question yields up to 14 polluted records (7 attacks × 2 image slots).
 QIMG-7/
 ├── README.md
 ├── LICENSE
-├── .gitattributes                       # Git LFS tracking for image files
+├── LICENSE-CODE                           # MIT license for source code
+├── LICENSE-DATA                           # CC BY 4.0 terms for dataset material
+├── requirements.txt                       # Python dependencies
+├── benchmark/
+│   ├── pool/                              # Full benchmark-pool metadata
+│   │   ├── AlpacaFact_query_image_polluted.csv
+│   │   ├── Biography_query_image_polluted.csv
+│   │   ├── FAVA_query_image_polluted.csv
+│   │   └── LongFact_query_image_polluted.csv
+│   └── evaluated/                         # Frozen 1,760-row evaluation set
+├── evaluation/
+│   ├── predictions/                       # Generated candidate answers
+│   ├── choices/                           # Router decisions
+│   ├── judged/                            # Factuality judgments
+│   ├── results/                           # Per-dataset result tables
+│   ├── tables/                            # Aggregate paper tables
+│   ├── router/                            # Combined routing records
+│   └── human_validation/                  # Human annotation artifacts
+├── metadata/                             # Filtering and implementation metadata
+├── code/
+│   ├── README.md                          # Standalone command guide
+│   ├── qimg7/                             # Benchmark construction and validation
+│   ├── generation/                        # Candidate-answer generation
+│   ├── routing/                           # Trust-routing methods
+│   └── eval/                              # Automated and human evaluation
 ├── docs/
 │   └── IMAGE_POLLUTION_METHODS.md       # Full attack methodology
 ├── images/
@@ -61,23 +86,20 @@ QIMG-7/
 │   ├── Biography/
 │   ├── FAVA/
 │   └── LongFact/
-├── AlpacaFact_query_image_polluted.csv
-├── Biography_query_image_polluted.csv
-├── FAVA_query_image_polluted.csv
-└── LongFact_query_image_polluted.csv
+└── .gitattributes                       # Git LFS image tracking
 ```
 
 Image filenames follow `T{type}_q{question_idx}_i{image_idx}.jpg`, e.g.
 `images/FAVA/T3_q1_i0.jpg` is the Semantic Entity Rewrite of question 1, image 0.
 
 All `polluted_image_path` values in the CSVs are **relative to the repository
-root**, so the CSVs and `images/` must remain siblings.
+root**. Run the examples and validation commands from that directory.
 
 ---
 
 ## CSV schema
 
-Each `*_query_image_polluted.csv` has these columns:
+Each `benchmark/pool/*_query_image_polluted.csv` has these columns:
 
 | Column | Description |
 |--------|-------------|
@@ -98,7 +120,7 @@ Each `*_query_image_polluted.csv` has these columns:
 The FAVA question 0 (`question_idx == 0`) records are a hand-curated, qualitatively
 refined version of the seven attacks (useful for figures); they follow the same
 schema and filename convention as every other question and live in the standard
-`FAVA_query_image_polluted.csv` / `images/FAVA/` location.
+`benchmark/pool/FAVA_query_image_polluted.csv` / `images/FAVA/` location.
 
 ---
 
@@ -108,12 +130,19 @@ schema and filename convention as every other question and live in the standard
 import csv, os
 from PIL import Image
 
-rows = list(csv.DictReader(open("FAVA_query_image_polluted.csv")))
+rows = list(csv.DictReader(open("benchmark/pool/FAVA_query_image_polluted.csv")))
 row = next(r for r in rows if r["polluted_image_path"])   # first attack with a saved image
 img = Image.open(row["polluted_image_path"])              # path is repo-root relative
 print(row["pollution_type"], row["polluted_alt"])
 img.show()
 ```
+
+## Evaluation artifacts
+
+The `benchmark/evaluated/` directory contains the 1,760-row evaluation benchmark. Generated answers, routing choices, judged outputs, and result tables are under `evaluation/`. Human annotations and reproducible summaries for the answer-support and image-attack validation studies are documented in [`evaluation/human_validation/README.md`](evaluation/human_validation/README.md).
+
+Standalone benchmark, generation, routing, and evaluation commands are listed in
+[`code/README.md`](code/README.md).
 
 ---
 
@@ -135,7 +164,10 @@ of images — install Git LFS and run `git lfs pull`.
 
 ## License
 
-CSV annotations and metadata are released under **CC BY 4.0** (see `LICENSE`).
+Source code is released under the [MIT License](LICENSE-CODE). QIMG-7 annotations
+and metadata are released under [CC BY 4.0](LICENSE-DATA). See [LICENSE](LICENSE)
+for the repository-wide licensing summary.
+
 The polluted images are derivative works of publicly available source images
 referenced by `original_image_url`; downstream use should respect the licenses of
 those original sources. This dataset is provided for **research on multimodal RAG
