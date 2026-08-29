@@ -1,9 +1,21 @@
-QIMG-7 Dataset Material License
+QIMG-7 Dataset Licensing Notice
 
 Copyright (c) 2026 Saadeldine Eletter, Owais Aijaz, and Preslav Nakov
 
-QIMG-7 annotations, captions, and metadata are licensed under the Creative
-Commons Attribution 4.0 International License (CC BY 4.0).
+QIMG-7 contains original contributions and third-party material under different
+licenses. No single license covers every file or field in the dataset bundle.
+
+1. Original QIMG-7 contributions -- CC BY 4.0
+------------------------------------------------
+
+To the extent owned or controlled by the QIMG-7 authors, the following original
+contributions are licensed under the Creative Commons Attribution 4.0
+International License (CC BY 4.0):
+
+  - pollution and attack-type annotations;
+  - original manipulation prompts, rationales, and method metadata;
+  - original human-validation annotations; and
+  - original database selection and arrangement, where protected.
 
 You are free to:
 
@@ -18,8 +30,56 @@ Under the following terms:
 The complete license terms are available at:
 https://creativecommons.org/licenses/by/4.0/legalcode
 
-The polluted images are derivative works of publicly available source images
-identified by the original_image_url field. They are not relicensed under CC BY
-4.0 by this repository and remain subject to the licenses and terms of their
-original sources. Material originating from upstream datasets remains subject
-to its applicable source license.
+2. Upstream dataset material
+----------------------------
+
+Question text, source annotations, original captions or alt text, retrieved
+evidence, and any other material copied or adapted from upstream datasets are
+not covered by the QIMG-7 CC BY 4.0 grant. They retain their source licenses and
+attribution requirements.
+
+The four principal upstream datasets are:
+
+  - AlpacaFact, derived from AlpacaFarm. AlpacaFarm data is licensed under
+    CC BY-NC 4.0:
+    https://github.com/tatsu-lab/alpaca_farm
+  - LongFact. Non-software material in its official release is licensed under
+    CC BY 4.0:
+    https://github.com/google-deepmind/long-form-factuality
+  - FAVA. Its official dataset card identifies CC BY 4.0:
+    https://huggingface.co/datasets/fava-uw/fava-data
+  - Biography, originating from the FActScore release. It retains the terms
+    and notices of that upstream release:
+    https://github.com/shmsw25/FActScore
+
+Because the bundle contains AlpacaFact-derived material, the complete dataset
+must not be represented as wholly CC BY 4.0 or as permitting unrestricted
+commercial reuse. Reusers of that material must comply with CC BY-NC 4.0:
+https://creativecommons.org/licenses/by-nc/4.0/legalcode
+
+3. Images and image derivatives
+-------------------------------
+
+Original source images and polluted, edited, patched, blended, stylized, or
+otherwise modified versions of those images are not covered by the QIMG-7
+CC BY 4.0 grant. They remain subject to the copyrights, licenses, website
+terms, and other rights of their respective sources, identified where
+available by original_image_url. Public availability does not imply permission
+for reuse. This repository makes no representation that noncommercial or
+research use is automatically permitted.
+
+4. Complete archives and repository snapshots
+----------------------------------------------
+
+QIMG-7 archives and repository snapshots are mixed-license collections. If a
+distribution platform requires one license identifier for the complete archive,
+CC BY-NC 4.0 should be used as the conservative package-level identifier, with
+this licensing notice retained. That identifier does not relicense or override
+third-party material excluded above.
+
+5. Prior versions
+-----------------
+
+Creative Commons licenses already granted are irrevocable. This notice
+clarifies the scope and provenance of the material in the repository and does
+not revoke permissions validly granted for earlier versions.

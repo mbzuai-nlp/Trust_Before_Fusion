@@ -55,7 +55,7 @@ QIMG-7/
 ├── README.md
 ├── LICENSE
 ├── LICENSE-CODE                           # MIT license for source code
-├── LICENSE-DATA                           # CC BY 4.0 terms for dataset material
+├── LICENSE-DATA                           # Mixed dataset licensing and provenance
 ├── requirements.txt                       # Python dependencies
 ├── benchmark/
 │   ├── pool/                              # Full benchmark-pool metadata
@@ -164,11 +164,22 @@ of images — install Git LFS and run `git lfs pull`.
 
 ## License
 
-Source code is released under the [MIT License](LICENSE-CODE). QIMG-7 annotations
-and metadata are released under [CC BY 4.0](LICENSE-DATA). See [LICENSE](LICENSE)
-for the repository-wide licensing summary.
+Source code is released under the [MIT License](LICENSE-CODE). To the extent
+owned or controlled by the QIMG-7 authors, original annotations, attack labels,
+manipulation metadata, and database selection and arrangement are released under
+[CC BY 4.0](LICENSE-DATA).
 
-The polluted images are derivative works of publicly available source images
-referenced by `original_image_url`; downstream use should respect the licenses of
-those original sources. This dataset is provided for **research on multimodal RAG
-robustness and security**.
+The complete dataset is a **mixed-license collection**. Upstream question text,
+captions, annotations, and evidence retain their source licenses. In particular,
+AlpacaFact is derived from AlpacaFarm, whose dataset is licensed CC BY-NC 4.0;
+the complete QIMG-7 bundle therefore must not be described as wholly CC BY 4.0
+or as permitting unrestricted commercial reuse. If an archive host requires a
+single package-level license identifier, use **CC BY-NC 4.0** and retain the
+full [dataset licensing notice](LICENSE-DATA).
+
+Original source images and polluted or otherwise modified versions are excluded
+from the QIMG-7 CC license and remain subject to the rights and terms of their
+respective sources, referenced where available by `original_image_url`. Public
+availability does not imply permission for reuse. See [LICENSE](LICENSE) for the
+repository-wide summary. The dataset is provided for **research on multimodal
+RAG robustness and security**.

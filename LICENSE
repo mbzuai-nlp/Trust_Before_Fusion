@@ -1,4 +1,5 @@
-QIMG-7 uses separate licenses for code and dataset material.
+QIMG-7 uses separate licenses for code, original QIMG-7 contributions, and
+third-party material. The repository as a whole is a mixed-license collection.
 
 Copyright (c) 2026 Saadeldine Eletter, Owais Aijaz, and Preslav Nakov
 
@@ -7,15 +8,36 @@ Software
 Source code in this repository is licensed under the MIT License. See
 LICENSE-CODE.
 
-Dataset material
-----------------
-QIMG-7 annotations, captions, and metadata are licensed under the Creative
-Commons Attribution 4.0 International License (CC BY 4.0). See LICENSE-DATA.
+Original QIMG-7 dataset contributions
+-------------------------------------
+To the extent owned or controlled by the QIMG-7 authors, original annotations,
+attack labels, manipulation prompts and rationales, and database selection and
+arrangement are licensed under the Creative Commons Attribution 4.0
+International License (CC BY 4.0). See LICENSE-DATA.
 
-Images and upstream material
-----------------------------
-The polluted images are derivative works of publicly available source images
-identified by the original_image_url field. They are not relicensed by this
-repository and remain subject to the licenses and terms of their original
-sources. Material originating from upstream datasets remains subject to its
-applicable source license.
+Upstream dataset material
+-------------------------
+Question text, source annotations, captions, and other material originating
+from upstream datasets are excluded from the QIMG-7 CC BY 4.0 grant and retain
+their applicable source licenses. In particular, AlpacaFact is derived from
+the AlpacaFarm dataset, which is licensed CC BY-NC 4.0. Consequently, the
+complete QIMG-7 dataset bundle must not be represented as wholly CC BY 4.0 or
+as permitting unrestricted commercial reuse. See LICENSE-DATA for details.
+
+Images
+------
+Original source images and polluted or otherwise modified versions of those
+images are excluded from the QIMG-7 CC BY 4.0 grant. They remain subject to
+the copyrights, licenses, terms, and other rights of their respective sources,
+as identified where available by original_image_url. Public availability does
+not imply permission for reuse.
+
+Archive-level metadata
+----------------------
+If a distribution platform requires one license identifier for the complete
+archive, use CC BY-NC 4.0 as the conservative package-level identifier and
+retain this notice. That identifier does not relicense or override excluded
+third-party material.
+
+This notice clarifies the scope of the repository's licenses. It does not
+revoke licenses already granted for earlier versions.
