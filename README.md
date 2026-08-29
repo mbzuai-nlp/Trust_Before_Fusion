@@ -178,8 +178,9 @@ single package-level license identifier, use **CC BY-NC 4.0** and retain the
 full [dataset licensing notice](LICENSE-DATA).
 
 Original source images and polluted or otherwise modified versions are excluded
-from the QIMG-7 CC license and remain subject to the rights and terms of their
-respective sources, referenced where available by `original_image_url`. Public
-availability does not imply permission for reuse. See [LICENSE](LICENSE) for the
-repository-wide summary. The dataset is provided for **research on multimodal
-RAG robustness and security**.
+from the QIMG-7 CC BY 4.0 grant and remain subject to the rights and terms of
+their respective sources, referenced where available by `original_image_url`.
+Public availability does not imply permission for reuse. See [LICENSE](LICENSE)
+for the repository-wide summary.
+
+QIMG-7 was developed for **research on multimodal RAG robustness and security**.
