@@ -1,43 +1,85 @@
-QIMG-7 uses separate licenses for code, original QIMG-7 contributions, and
-third-party material. The repository as a whole is a mixed-license collection.
+QIMG-7 uses separate licenses for code, original QIMG-7 contributions,
+and third-party material. The repository as a whole is a mixed-license
+collection.
 
 Copyright (c) 2026 Saadeldine Eletter, Owais Aijaz, and Preslav Nakov
 
-Software
---------
+## Software
+
 Source code in this repository is licensed under the MIT License. See
 LICENSE-CODE.
 
-Original QIMG-7 dataset contributions
--------------------------------------
-To the extent owned or controlled by the QIMG-7 authors, original annotations,
-attack labels, manipulation prompts and rationales, and database selection and
-arrangement are licensed under the Creative Commons Attribution 4.0
-International License (CC BY 4.0). See LICENSE-DATA.
+## Original QIMG-7 dataset contributions
 
-Upstream dataset material
--------------------------
-Question text, source annotations, captions, and other material originating
-from upstream datasets are excluded from the QIMG-7 CC BY 4.0 grant and retain
-their applicable source licenses. In particular, AlpacaFact is derived from
-the AlpacaFarm dataset, which is licensed CC BY-NC 4.0. Consequently, the
-complete QIMG-7 dataset bundle must not be represented as wholly CC BY 4.0 or
-as permitting unrestricted commercial reuse. See LICENSE-DATA for details.
+To the extent owned or controlled by the QIMG-7 authors and protected
+by copyright or similar rights, original annotations, attack labels,
+manipulation prompts and rationales, human-validation annotations, and
+database selection and arrangement are licensed under the Creative
+Commons Attribution 4.0 International License (CC BY 4.0). See
+LICENSE-DATA.
 
-Images
-------
-Original source images and polluted or otherwise modified versions of those
-images are excluded from the QIMG-7 CC BY 4.0 grant. They remain subject to
-the copyrights, licenses, terms, and other rights of their respective sources,
-as identified where available by original_image_url. Public availability does
-not imply permission for reuse.
+## Upstream dataset material
 
-Archive-level metadata
-----------------------
-If a distribution platform requires one license identifier for the complete
-archive, use CC BY-NC 4.0 as the conservative package-level identifier and
-retain this notice. That identifier does not relicense or override excluded
-third-party material.
+Question text, source annotations, captions, and other material
+originating from upstream datasets are excluded from the QIMG-7
+CC BY 4.0 grant and retain their applicable source licenses and notices:
 
-This notice clarifies the scope of the repository's licenses. It does not
-revoke licenses already granted for earlier versions.
+| QIMG-7 subset | Upstream source and applicable terms |
+|---|---|
+| AlpacaFact | Derived from AlpacaFarm; CC BY-NC 4.0 |
+| LongFact | CC BY 4.0 for non-software materials |
+| FAVA | CC BY 4.0 |
+| Biography | Originates from the MIT-licensed FActScore repository; any associated third-party material retains its original terms |
+
+Because the bundle contains AlpacaFact-derived material, the complete
+QIMG-7 dataset must not be represented as wholly CC BY 4.0 or as
+permitting unrestricted commercial reuse. Separable components remain
+available under their respective licenses. See LICENSE-DATA for source
+links, attribution information, and further details.
+
+## Images
+
+This repository does not redistribute source images or their polluted
+variants except where the applicable source terms permit. For other
+image items, we release the source URL, a content hash, the manipulation
+prompt, and, where available, a reconstruction script. Availability of
+these materials does not itself grant permission to download, reproduce,
+modify, or redistribute the underlying image.
+
+Any included image files remain subject to the copyrights, licenses,
+website terms, and other rights of their respective sources, identified
+where available by `original_image_url`. Public availability does not
+imply permission for reuse.
+
+## Content notice
+
+Polluted items in this repository contain deliberately false statements,
+including statements about real named people and organizations. They are
+synthetic benchmark artifacts for robustness research and are not
+factual claims. They are not intended to be extracted, republished, or
+indexed as factual content.
+
+## Archive-level metadata
+
+Where a distribution platform supports a mixed-license or `other`
+identifier, that identifier should be used. If a platform requires one
+standard license identifier and provides no mixed-license option,
+CC BY-NC 4.0 may be used as a conservative package-level identifier,
+provided that this mixed-license notice is retained. The package-level
+identifier does not relicense, restrict, or override separately licensed
+or excluded third-party material.
+
+## Attribution
+
+When sharing material covered by the QIMG-7 CC BY 4.0 license, users
+must retain the supplied creator identification, copyright notice,
+license notice and link, source link where reasonably practicable, and
+an indication of any modifications. Users must also comply separately
+with the attribution and notice requirements of applicable upstream
+licenses.
+
+For academic use, please cite the QIMG-7 paper using the citation
+provided in CITATION.cff or the README.
+
+This notice clarifies the scope of the repository's licenses. It does
+not revoke or alter licenses validly granted for earlier versions.
