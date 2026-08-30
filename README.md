@@ -151,7 +151,16 @@ img.show()
 The `benchmark/evaluated/` directory contains the 1,760-row evaluation benchmark. Generated answers, routing choices, judged outputs, and result tables are under `evaluation/`. Human annotations and reproducible summaries for the answer-support and image-attack validation studies are documented in [`evaluation/human_validation/README.md`](evaluation/human_validation/README.md).
 
 Standalone benchmark, generation, routing, and evaluation commands are listed in
-[`code/README.md`](code/README.md).
+[`code/README.md`](code/README.md). To check the released artifacts against each
+other without any API call:
+
+```bash
+python code/eval/verify_released_artifacts.py
+```
+
+[`docs/REPRODUCTION.md`](docs/REPRODUCTION.md) documents which command produces
+each table, the per-stage API-call counts, and what cannot currently be
+reproduced.
 
 ---
 
