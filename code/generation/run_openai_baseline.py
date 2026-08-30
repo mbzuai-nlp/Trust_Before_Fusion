@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Run a quick multimodal baseline over regime JSONL using OpenAI Responses API.
+"""Run a multimodal baseline over a QIMG-7 regime JSONL using the OpenAI Responses API.
 
-This script is intentionally standalone so you can start experimenting immediately,
-even before fully wiring MM-MIRAGE into the old repo.
+This script is standalone: it takes a benchmark JSONL and writes predictions,
+with no dependency on the rest of the pipeline.
 
 It uses both:
 - text evidence (top-k text snippets)
@@ -80,7 +80,7 @@ def url_to_data_url(url: str, timeout_s: float = 20.0, max_bytes: int = 20 * 102
     req = urllib.request.Request(
         url,
         headers={
-            'User-Agent': 'Mozilla/5.0 (compatible; MM-MIRAGE/1.0)',
+            'User-Agent': 'Mozilla/5.0 (compatible; QIMG-7/1.0)',
             'Accept': 'image/avif,image/webp,image/png,image/jpeg,image/gif,*/*;q=0.8',
         },
     )
