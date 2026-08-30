@@ -104,10 +104,12 @@ columns are **currently empty**: no per-image rights determination has been
 recorded for the packaged files, and the manifest is published as a
 skeleton for that review rather than as its result.
 
-This release does **not** provide a reconstruction script that regenerates
-the polluted variants. The attack families are described in
-`docs/IMAGE_POLLUTION_METHODS.md`, but that document is a prose
-specification, not runnable reconstruction code.
+The construction code that produced the polluted variants is released as
+`code/qimg7/pollute_query_images.py`, with the attack families described in
+`docs/IMAGE_POLLUTION_METHODS.md`. Regenerating a variant requires
+downloading the source image from `original_image_url`; several attacks are
+non-deterministic and call third-party services, so a regenerated file will
+not be byte-identical to the one shipped here.
 
 The availability of this metadata does not grant permission to download,
 reproduce, modify, or redistribute the underlying image.

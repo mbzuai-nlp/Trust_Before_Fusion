@@ -1,10 +1,9 @@
 # Dependencies for the QIMG-7 image-construction (T1-T7) toolchain described in
 # docs/IMAGE_POLLUTION_METHODS.md.
 #
-# IMPORTANT: the construction code itself is NOT part of this release (REP-05).
-# This file records what that toolchain requires so the documented method can be
-# audited and, if the original scripts are recovered, re-run. Installing it will
-# not let you regenerate the shipped images on its own.
+# Needed only to regenerate polluted images with
+# `code/qimg7/pollute_query_images.py`; the evaluation code in requirements.txt
+# does not use any of it.
 #
 # Versions are those of the environment that produced the released images.
 

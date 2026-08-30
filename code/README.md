@@ -23,7 +23,28 @@ python code/qimg7/build_benchmark.py --help
 python code/qimg7/validate_outputs.py --help
 python code/qimg7/filter_bad_rows.py --help
 python code/qimg7/assert_coverage.py --help
+python code/qimg7/make_ablation_benchmarks.py --help
+python code/qimg7/summarize_regimes_and_predictions.py --help
 ```
+
+## Image attack construction (T1-T7)
+
+`code/qimg7/pollute_query_images.py` is the script that produced the shipped
+attack images. It reads the clean evidence pools in
+`benchmark/query_image_evidence/` and writes a pool CSV plus the attack images.
+
+```bash
+python -m pip install -r requirements-construction.txt
+export GEMINI_API_KEY=...
+python code/qimg7/pollute_query_images.py FAVA     # or --all
+python code/qimg7/fill_pollution_gaps.py FAVA      # top up short questions
+```
+
+Output goes to `data/query_polluted_{evidence,images}/`, outside `benchmark/`,
+so a re-run cannot overwrite the published pool. Regenerated images will not be
+byte-identical to the shipped ones — T1/T3 call Gemini and T5/T7 run float GPU
+kernels. See [`docs/REPRODUCTION.md`](../docs/REPRODUCTION.md) and
+[`docs/IMAGE_POLLUTION_METHODS.md`](../docs/IMAGE_POLLUTION_METHODS.md).
 
 ## Generation and routing
 

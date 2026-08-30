@@ -43,6 +43,7 @@ The image checks read SHA-256s from the Git LFS pointers, so they work without
 
 | Output | Command | Input | LLM calls |
 |---|---|---|---|
+| `benchmark/pool/<DS>_query_image_polluted.csv` + `images/` | `code/qimg7/pollute_query_images.py` | `benchmark/query_image_evidence/` | Gemini + local Ollama |
 | `evaluation/results/<ds>/*_final_results_gpt4omini_<n>.csv` | `code/eval/make_results_table.py` | `evaluation/judged/gpt4omini/<ds>/*.judged.jsonl` | none |
 | `evaluation/tables/table_main_qimg7_macro.csv` | `code/eval/make_paper_tables.py` | the four per-dataset results CSVs | none |
 | `evaluation/tables/table_per_dataset_qimg7.csv` | `code/eval/make_paper_tables.py` | same | none |
@@ -112,6 +113,27 @@ input is missing.
 
 ---
 
+## 3b. Rebuilding the polluted images
+
+```bash
+python -m pip install -r requirements-construction.txt
+export GEMINI_API_KEY=...          # T1, T3
+ollama serve && ollama pull gemma3:4b-it-qat   # T6, optional; degrades gracefully
+python code/qimg7/pollute_query_images.py FAVA        # or --all
+python code/qimg7/fill_pollution_gaps.py FAVA         # top up any short questions
+```
+
+Reads `benchmark/query_image_evidence/`, writes to `data/query_polluted_evidence/`
+and `data/query_polluted_images/` — deliberately outside `benchmark/`, so a
+re-run cannot overwrite the published pool. Set `QIMG7_EVIDENCE_DIR`,
+`QIMG7_POLLUTED_CSV_DIR`, `QIMG7_POLLUTED_IMG_DIR` to change any of these.
+
+Costs money (Gemini) and downloads the source images from their original URLs.
+T5 (PGD on CLIP ViT-L/14) and T7 (VGG-19 style transfer) run locally on
+MPS or CPU. `RANDOM_SEED` is fixed at 42, but T1/T3 call Gemini and T5/T7 run
+float GPU kernels, so **regenerated images will not be byte-identical to the
+shipped ones**. The pipeline is per-attack checkpointed and resumable.
+
 ## 4. Models
 
 The published runs used `gpt-4o-mini` for both generation and judging via the
@@ -146,9 +168,7 @@ Reproduction is currently partial. What is missing, and why it matters:
 
 | Gap | Effect |
 |---|---|
-| Text-pollution CSVs (`{DS}_clean.csv`, `{DS}_polluted_aligned.csv`) | The benchmark cannot be rebuilt from source; the released `benchmark/evaluated/` is the earliest public entry point. |
-| Ablation-benchmark and regime-summary scripts | The parametric and text_only views cannot be rebuilt; the pipeline seeds those baselines from the released predictions instead. |
-| T1-T7 attack construction code | The polluted images cannot be regenerated. `docs/IMAGE_POLLUTION_METHODS.md` specifies the method in prose; `requirements-construction.txt` records the toolchain. |
+| Text-pollution CSVs (`{DS}_clean.csv`, `{DS}_polluted_aligned.csv`) | The image side rebuilds end to end, but pairing it with polluted *text* to form the regimes does not; the released `benchmark/evaluated/` is the entry point for that stage. |
 | Cross-model artifacts | GPT-4.1-mini, Qwen2.5-VL, and Llama-3.2-Vision results cannot be checked against anything in this repository. |
 | Bootstrap, atomic-decomposition, and evaluator-sensitivity code, with their seeds and stratification IDs | The reported confidence intervals and sensitivity analyses cannot be re-derived. |
 | Model snapshot IDs | An exact re-run of the published numbers is not possible even with a key. |
