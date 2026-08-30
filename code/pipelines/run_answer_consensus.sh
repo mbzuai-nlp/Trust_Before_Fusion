@@ -18,8 +18,6 @@ else
   exit 1
 fi
 
-: "${OPENAI_API_KEY:?Set OPENAI_API_KEY}"
-
 MODEL_TAG="${MODEL_TAG:-gpt4omini}"
 JUDGE_MODEL="${JUDGE_MODEL:-gpt-4o-mini}"
 LOGDIR="logs/qimg7_answer_consensus"
@@ -64,6 +62,8 @@ if [ "${#PREFLIGHT_ERRORS[@]}" -gt 0 ]; then
   for e in "${PREFLIGHT_ERRORS[@]}"; do echo "  - $e" >&2; done
   exit 2
 fi
+
+: "${OPENAI_API_KEY:?Set OPENAI_API_KEY}"
 
 echo "NOTE: this script calls the judge API and costs money."
 echo "      The released answer_consensus judgments are already in"
