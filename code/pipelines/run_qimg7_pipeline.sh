@@ -13,6 +13,11 @@ PKG="${QIMG7_PKG:-benchmark/pool}"
 IMAGE_ROOT="${QIMG7_IMAGE_ROOT:-.}"
 EVALUATED_DIR="${QIMG7_EVALUATED_DIR:-benchmark/evaluated}"
 
+# Frozen artifacts from the released run. These are read-only inputs: the
+# pipeline copies from them into its own output tree and never writes back.
+RELEASED_PRED_ROOT="${QIMG7_RELEASED_PRED_ROOT:-evaluation/predictions}"
+RELEASED_JUDGED_ROOT="${QIMG7_RELEASED_JUDGED_ROOT:-evaluation/judged}"
+
 # Default entry point is the released benchmark under benchmark/evaluated/.
 # The construction stages (package validation -> image manifest -> benchmark
 # build -> ablation benchmarks) need the text-pollution CSVs, which are not part
@@ -140,6 +145,32 @@ validate_judged() {
     --file "$file" \
     --kind judged \
     --strict
+}
+
+# Copy a frozen released artifact into this run's output tree if we do not have
+# one yet. Never writes into evaluation/.
+seed_from_released() {
+  local kind="$1"    # predictions | judged
+  local base="$2"
+  local src dest
+  if [ "$kind" = "predictions" ]; then
+    src="$RELEASED_PRED_ROOT/$MODEL_TAG/$PREFIX/${base}_${N}.jsonl"
+    dest="$PRED_DIR/${base}_${N}.jsonl"
+  else
+    src="$RELEASED_JUDGED_ROOT/$MODEL_TAG/$PREFIX/${base}_${N}.judged.jsonl"
+    dest="$JUDGED_DIR/${base}_${N}.judged.jsonl"
+  fi
+  if [ ! -f "$dest" ] && [ -f "$src" ]; then
+    cp "$src" "$dest"
+    echo "Seeded $kind for $base from the released artifacts: $src"
+    if [ "$kind" = "predictions" ]; then
+      local choices="${src%.jsonl}.choices.jsonl"
+      if [ -f "$choices" ]; then
+        cp "$choices" "${dest%.jsonl}.choices.jsonl"
+      fi
+    fi
+  fi
+  return 0
 }
 
 seed_legacy_judged_if_present() {
@@ -286,10 +317,18 @@ if [ "$BUILD_FROM_SOURCE" = "1" ]; then
 else
   need_file "$BENCH" "evaluated benchmark" \
     "expected the released benchmark for $DATASET at N=$N"
-  if [ ! -f "$PARAM_BENCH" ] || [ ! -f "$TEXT_BENCH" ]; then
-    need_file "$ABLATION_SCRIPT" "ablation-benchmark script" \
-      "needed to build $PARAM_BENCH and $TEXT_BENCH for the parametric and text_only baselines; not released (REP-01)"
-  fi
+  # parametric and text_only run on ablation views of the benchmark. Those
+  # views need the unreleased ablation script -- but the released run's own
+  # predictions for both baselines are in the repo, so seed from those instead
+  # and only demand the script when neither route is available.
+  for base in parametric text_only; do
+    bench_var="$([ "$base" = parametric ] && echo "$PARAM_BENCH" || echo "$TEXT_BENCH")"
+    if [ ! -f "$bench_var" ] \
+       && [ ! -f "$RELEASED_PRED_ROOT/$MODEL_TAG/$PREFIX/${base}_${N}.jsonl" ]; then
+      need_file "$ABLATION_SCRIPT" "ablation-benchmark script" \
+        "needed to build $bench_var for the $base baseline, and no released prediction to seed from; not released (REP-01)"
+    fi
+  done
 fi
 
 if [ "${#PREFLIGHT_ERRORS[@]}" -gt 0 ]; then
@@ -351,9 +390,21 @@ else
 fi
 
 # The parametric and text_only baselines read ablation views of the benchmark.
-# Rebuild them only when they are absent; preflight has already established that
-# the script is available in that case.
-if [ ! -f "$PARAM_BENCH" ]; then
+# When we cannot build those views, fall back to the released predictions for
+# the same baselines, which validate against this benchmark unchanged.
+if [ "$BUILD_FROM_SOURCE" != "1" ]; then
+  # Every baseline with a frozen artifact in the release. triage_gate is
+  # deliberately absent: this pipeline runs it, but no triage_gate prediction or
+  # judgment was published, so that step still needs an API key.
+  for base in parametric text_only full_mm selfcheck_gate cascaded_router \
+              source_aware_conductor source_aware_selector field_selector \
+              soft_conductor answer_consensus; do
+    seed_from_released predictions "$base"
+    seed_from_released judged "$base"
+  done
+fi
+
+if [ ! -f "$PARAM_BENCH" ] && [ ! -f "$PRED_DIR/parametric_${N}.jsonl" ]; then
   run_step make_parametric \
     "$PYTHON_BIN" "$ABLATION_SCRIPT" \
       --input_jsonl "$BENCH" \
@@ -361,7 +412,7 @@ if [ ! -f "$PARAM_BENCH" ]; then
       --mode parametric
 fi
 
-if [ ! -f "$TEXT_BENCH" ]; then
+if [ ! -f "$TEXT_BENCH" ] && [ ! -f "$PRED_DIR/text_only_${N}.jsonl" ]; then
   run_step make_text_only \
     "$PYTHON_BIN" "$ABLATION_SCRIPT" \
       --input_jsonl "$BENCH" \
