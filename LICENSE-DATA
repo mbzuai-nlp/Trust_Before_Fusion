@@ -84,13 +84,18 @@ variants except where the applicable source terms permit redistribution.
 For other image items, the repository provides, where available:
 
 - the source URL (`original_image_url`);
-- a content hash of the retrieved image;
-- the manipulation prompt and attack-family label; and
-- a reconstruction script intended to regenerate the polluted variant.
+- the polluted image URL (`polluted_image_url`) or, for locally packaged
+  attacks, the relative file path (`polluted_image_path`); and
+- the attack-family label and manipulation metadata (`pollution_type`,
+  `manipulation_method`, `manipulation_prompt`, `rationale`).
 
-The availability of this metadata or reconstruction code does not grant
-permission to download, reproduce, modify, or redistribute the underlying
-image.
+This release does **not** provide a content hash of each retrieved image,
+nor a reconstruction script that regenerates the polluted variants. The
+attack families are described in `docs/IMAGE_POLLUTION_METHODS.md`, but
+that document is a prose specification, not runnable reconstruction code.
+
+The availability of this metadata does not grant permission to download,
+reproduce, modify, or redistribute the underlying image.
 
 Where image files are included, they are not covered by the QIMG-7
 CC BY 4.0 grant unless explicitly identified otherwise. They remain
