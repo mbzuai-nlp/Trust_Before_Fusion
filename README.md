@@ -46,6 +46,15 @@ question yields up to 14 polluted records (7 attacks × 2 image slots).
 | LongFact   | 248 | 3,550 | 2,499 |
 | **Total**  | **761** | **10,886** | **7,687** |
 
+"Saved images" counts every file under `images/`: 7,608 packaged attack
+derivatives (T3-T7) plus 79 cached clean originals (`orig_*`). T1 caption_flip
+and T2 entity_swap are URL-based and package no local file, so the attack
+derivatives cover five of the seven families. "Polluted records" counts rows in
+`benchmark/pool/*.csv`, of which 78 are exact duplicates of another row
+(10,808 distinct). A per-image manifest with SHA-256s is in
+`metadata/qimg7_image_manifest.csv`; regenerate the reconciliation with
+`python code/qimg7/build_image_hash_manifest.py --counts_only`.
+
 ---
 
 ## Repository layout
