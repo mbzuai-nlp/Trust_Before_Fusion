@@ -164,10 +164,8 @@ git lfs install
 git clone <repo-url>
 ```
 
-A standalone archive (`QIMG-7.zip`) containing the full tree is also distributed
-for hosts that do not support Git LFS (e.g. Zenodo, where it is published with a
-DOI). If you cloned without LFS support you will see small pointer files instead
-of images — install Git LFS and run `git lfs pull`.
+If you cloned without LFS support you will see small pointer files instead of
+images — install Git LFS and run `git lfs pull`.
 
 ---
 
