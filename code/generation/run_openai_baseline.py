@@ -26,6 +26,11 @@ from urllib.parse import urlparse
 from pathlib import Path
 from typing import Iterable, List
 
+import os as _os
+import sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+from common.prompt_fields import model_facing_evidence  # noqa: E402
+
 try:
     from openai import OpenAI
 except ImportError:
@@ -230,19 +235,21 @@ def call_model(client: OpenAI, model: str, content: List[dict], backend: str, ma
 
 
 def build_text_prompt(row: dict) -> str:
+    # Only allow-listed fields reach the prompt; see code/common/prompt_fields.py.
+    evidence = model_facing_evidence(row, 'answer')
     lines = []
     lines.append('Answer the question using the provided evidence.')
     lines.append('Prefer information that is consistent across sources. If the evidence is unreliable or conflicting, say you are uncertain.')
     lines.append('Do not discuss benchmark construction metadata.')
     lines.append('')
-    lines.append(f"QUESTION: {row['question']}")
+    lines.append(f"QUESTION: {evidence['question']}")
     lines.append('')
     lines.append('TEXT EVIDENCE:')
-    for i, ev in enumerate(row.get('text_evidence', []), start=1):
+    for i, ev in enumerate(evidence['text_evidence'], start=1):
         lines.append(f"[{i}] Title: {ev.get('title','')}")
         lines.append(f"    Snippet: {ev.get('snippet','')}")
         lines.append(f"    URL: {ev.get('url','')}")
-    img = row.get('image_evidence', {})
+    img = evidence['image_evidence']
     lines.append('')
     lines.append('IMAGE EVIDENCE METADATA:')
     lines.append(f"Title: {img.get('title','')}")

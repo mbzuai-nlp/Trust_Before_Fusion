@@ -74,6 +74,39 @@ already present in a released table is copied through byte-for-byte once its
 recomputed values are confirmed to match within 1e-12, and the script aborts
 rather than overwrite a published value that does not.
 
+## Prompt field boundary
+
+Benchmark rows carry the construction record next to the evidence: `regime`,
+`text_status`, `image_status`, `image_pollution_type`, and the nested
+`image_evidence.metadata` block (`manipulation_method`, `manipulation_prompt`,
+`donor_question_idx`, `rationale`, `original_alt`, `polluted_alt`). None of it
+may reach an answer, router, or judge prompt.
+
+`code/common/prompt_fields.py` holds the allow-list and the extraction. Each
+component declares which allow-list it uses and keeps its own rendering:
+
+| Component | Script | Allow-list |
+|---|---|---|
+| answer | `code/generation/run_openai_baseline.py` | `answer` |
+| self-check gate | `code/routing/run_selfcheck_gate.py` | `selfcheck_gate` |
+| triage gate | `code/routing/run_triage_gate.py` | `triage_gate` |
+| source-aware resolver | `code/routing/run_source_aware_resolver.py` | `source_aware` |
+| judge | `code/eval/judge_against_clean.py` | `judge` |
+
+All five currently permit the same fields (`question`; `text_evidence.title`,
+`.snippet`, `.url`; `image_evidence.title`, `.alt_text`, `.page_url`). The judge
+differs by being handed the clean `TC_IC` row for the qid, not by seeing extra
+fields. `local_path` / `resolved_local_path` are excluded on purpose: a packaged
+path such as `images/FAVA/T6_q18_i1.jpg` names the attack family in its
+filename. They are used to load pixels, never rendered into text.
+
+```bash
+python code/tests/test_prompt_leakage.py
+```
+
+Runs every released row through every builder and fails if a construction field
+appears by key or by value. No API key, no network.
+
 ## Image manifest and count reconciliation
 
 ```bash
