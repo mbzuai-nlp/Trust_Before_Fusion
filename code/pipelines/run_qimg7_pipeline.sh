@@ -493,6 +493,21 @@ safe_judge selfcheck_gate "$JUDGED_DIR/selfcheck_gate_${N}.judged.jsonl" \
     --max_retries 3 \
     --progress_every 50
 
+# triage_gate is an intermediate stage: its only consumer is cascaded_router.
+# No triage_gate artifact was published, so on the default path cascaded_router
+# is seeded from the release and triage_gate has nothing left to feed. Re-running
+# it would spend money to produce an input nothing reads.
+if [ -f "$PRED_DIR/cascaded_router_${N}.jsonl" ] \
+   && [ ! -f "$PRED_DIR/triage_gate_${N}.choices.jsonl" ]; then
+  TRIAGE_NEEDED=0
+  echo "Skipping triage_gate: cascaded_router is already available, and"
+  echo "triage_gate's only consumer is cascaded_router. Delete"
+  echo "$PRED_DIR/cascaded_router_${N}.jsonl to force both to re-run."
+else
+  TRIAGE_NEEDED=1
+fi
+
+if [ "$TRIAGE_NEEDED" = "1" ]; then
 safe_predict triage_gate "$PRED_DIR/triage_gate_${N}.jsonl" \
   "$PYTHON_BIN" code/routing/run_triage_gate.py \
     --benchmark_jsonl "$BENCH" \
@@ -519,6 +534,7 @@ safe_judge triage_gate "$JUDGED_DIR/triage_gate_${N}.judged.jsonl" \
     --request_timeout_s 90 \
     --max_retries 3 \
     --progress_every 50
+fi
 
 safe_predict cascaded_router "$PRED_DIR/cascaded_router_${N}.jsonl" \
   "$PYTHON_BIN" code/routing/run_cascaded_router.py \
@@ -613,16 +629,25 @@ for BASE in field_selector soft_conductor; do
       --progress_every 50
 done
 
+# Summarise every baseline that actually has a judged file, so the table matches
+# what this run produced. answer_consensus comes from run_answer_consensus.sh and
+# is included when its judgments are present.
+FINAL_JUDGED=()
+for BASE in parametric text_only full_mm selfcheck_gate triage_gate \
+            cascaded_router field_selector soft_conductor answer_consensus; do
+  if [ -f "$JUDGED_DIR/${BASE}_${N}.judged.jsonl" ]; then
+    FINAL_JUDGED+=("$JUDGED_DIR/${BASE}_${N}.judged.jsonl")
+  fi
+done
+
+if [ "${#FINAL_JUDGED[@]}" -eq 0 ]; then
+  echo "No judged files under $JUDGED_DIR; nothing to summarise." >&2
+  exit 1
+fi
+
 run_step final_results \
       "$PYTHON_BIN" code/eval/make_results_table.py \
-    --judged_jsonls \
-      "$JUDGED_DIR/parametric_${N}.judged.jsonl" \
-      "$JUDGED_DIR/text_only_${N}.judged.jsonl" \
-      "$JUDGED_DIR/full_mm_${N}.judged.jsonl" \
-      "$JUDGED_DIR/selfcheck_gate_${N}.judged.jsonl" \
-      "$JUDGED_DIR/cascaded_router_${N}.judged.jsonl" \
-      "$JUDGED_DIR/field_selector_${N}.judged.jsonl" \
-      "$JUDGED_DIR/soft_conductor_${N}.judged.jsonl" \
+    --judged_jsonls "${FINAL_JUDGED[@]}" \
     --output_csv "$OUTDIR/results/${PREFIX}_qimg7_final_results_${MODEL_TAG}_${N}.csv" \
     --output_md "$OUTDIR/results/${PREFIX}_qimg7_final_results_${MODEL_TAG}_${N}.md"
 
