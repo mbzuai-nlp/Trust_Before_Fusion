@@ -87,12 +87,21 @@ For other image items, the repository provides, where available:
 - the polluted image URL (`polluted_image_url`) or, for locally packaged
   attacks, the relative file path (`polluted_image_path`); and
 - the attack-family label and manipulation metadata (`pollution_type`,
-  `manipulation_method`, `manipulation_prompt`, `rationale`).
+  `manipulation_method`, `manipulation_prompt`, `rationale`); and
+- a SHA-256 content hash and byte size for every packaged image file, in
+  `metadata/qimg7_image_manifest.csv`.
 
-This release does **not** provide a content hash of each retrieved image,
-nor a reconstruction script that regenerates the polluted variants. The
-attack families are described in `docs/IMAGE_POLLUTION_METHODS.md`, but
-that document is a prose specification, not runnable reconstruction code.
+That manifest also carries per-image rights columns (`rightsholder`,
+`source_license`, `source_license_url`, `derivative_permission`,
+`commercial_restriction`, `verification_date`, `include_decision`). Those
+columns are **currently empty**: no per-image rights determination has been
+recorded for the packaged files, and the manifest is published as a
+skeleton for that review rather than as its result.
+
+This release does **not** provide a reconstruction script that regenerates
+the polluted variants. The attack families are described in
+`docs/IMAGE_POLLUTION_METHODS.md`, but that document is a prose
+specification, not runnable reconstruction code.
 
 The availability of this metadata does not grant permission to download,
 reproduce, modify, or redistribute the underlying image.
