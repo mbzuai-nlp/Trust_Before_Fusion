@@ -1,0 +1,27 @@
+# Dependencies for the QIMG-7 image-construction (T1-T7) toolchain described in
+# docs/IMAGE_POLLUTION_METHODS.md.
+#
+# Needed only to regenerate polluted images with
+# `code/qimg7/pollute_query_images.py`; the evaluation code in requirements.txt
+# does not use any of it.
+#
+# Versions are those of the environment that produced the released images.
+
+# T3 semantic entity rewrite: Gemini 2.5 Flash text + image editing
+google-genai==1.47.0
+
+# T4 FIGSTEP typography, T6 image blend compositing, T3 fallback tinting
+pillow==11.3.0
+
+# T5 adversarial patch: CLIP ViT-L/14 (openai/clip-vit-large-patch14)
+transformers==4.57.1
+torch==2.11.0
+
+# T7 neural style transfer: frozen torchvision VGG-19 encoder
+torchvision==0.26.0
+
+# HTTP clients used by the construction and image-fetch scripts. T6 talks to a
+# local Ollama server (gemma3:4b-it-qat) over HTTP; there is no Python SDK
+# dependency, and the method falls back gracefully when Ollama is unavailable.
+requests==2.32.5
+tqdm==4.67.3

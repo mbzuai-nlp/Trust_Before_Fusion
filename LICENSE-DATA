@@ -84,13 +84,35 @@ variants except where the applicable source terms permit redistribution.
 For other image items, the repository provides, where available:
 
 - the source URL (`original_image_url`);
-- a content hash of the retrieved image;
-- the manipulation prompt and attack-family label; and
-- a reconstruction script intended to regenerate the polluted variant.
+- the polluted image URL (`polluted_image_url`) or, for locally packaged
+  attacks, the relative file path (`polluted_image_path`);
+- the attack-family label and manipulation metadata (`pollution_type`,
+  `manipulation_method`, `manipulation_prompt`, `rationale`); and
+- a SHA-256 and byte size for every image file **that this repository
+  redistributes**, in `metadata/qimg7_image_manifest.csv`.
 
-The availability of this metadata or reconstruction code does not grant
-permission to download, reproduce, modify, or redistribute the underlying
-image.
+Note what that hash covers. For the 7,608 packaged attack derivatives it is a
+hash of the derivative file as shipped here, not of the image retrieved from
+`original_image_url`. Hashes of the source images as originally retrieved were
+not recorded, so the manifest cannot be used to verify that a copy obtained
+from a source URL matches the one this work was built from.
+
+That manifest also carries per-image rights columns (`rightsholder`,
+`source_license`, `source_license_url`, `derivative_permission`,
+`commercial_restriction`, `verification_date`, `include_decision`). Those
+columns are **currently empty**: no per-image rights determination has been
+recorded for the packaged files, and the manifest is published as a
+skeleton for that review rather than as its result.
+
+The construction code that produced the polluted variants is released as
+`code/qimg7/pollute_query_images.py`, with the attack families described in
+`docs/IMAGE_POLLUTION_METHODS.md`. Regenerating a variant requires
+downloading the source image from `original_image_url`; several attacks are
+non-deterministic and call third-party services, so a regenerated file will
+not be byte-identical to the one shipped here.
+
+The availability of this metadata does not grant permission to download,
+reproduce, modify, or redistribute the underlying image.
 
 Where image files are included, they are not covered by the QIMG-7
 CC BY 4.0 grant unless explicitly identified otherwise. They remain

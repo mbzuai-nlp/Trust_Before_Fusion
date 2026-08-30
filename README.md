@@ -46,6 +46,15 @@ question yields up to 14 polluted records (7 attacks × 2 image slots).
 | LongFact   | 248 | 3,550 | 2,499 |
 | **Total**  | **761** | **10,886** | **7,687** |
 
+"Saved images" counts every file under `images/`: 7,608 packaged attack
+derivatives (T3-T7) plus 79 cached clean originals (`orig_*`). T1 caption_flip
+and T2 entity_swap are URL-based and package no local file, so the attack
+derivatives cover five of the seven families. "Polluted records" counts rows in
+`benchmark/pool/*.csv`, of which 78 are exact duplicates of another row
+(10,808 distinct). A per-image manifest with SHA-256s is in
+`metadata/qimg7_image_manifest.csv`; regenerate the reconciliation with
+`python code/qimg7/build_image_hash_manifest.py --counts_only`.
+
 ---
 
 ## Repository layout
@@ -142,7 +151,16 @@ img.show()
 The `benchmark/evaluated/` directory contains the 1,760-row evaluation benchmark. Generated answers, routing choices, judged outputs, and result tables are under `evaluation/`. Human annotations and reproducible summaries for the answer-support and image-attack validation studies are documented in [`evaluation/human_validation/README.md`](evaluation/human_validation/README.md).
 
 Standalone benchmark, generation, routing, and evaluation commands are listed in
-[`code/README.md`](code/README.md).
+[`code/README.md`](code/README.md). To check the released artifacts against each
+other without any API call:
+
+```bash
+python code/eval/verify_released_artifacts.py
+```
+
+[`docs/REPRODUCTION.md`](docs/REPRODUCTION.md) documents which command produces
+each table, the per-stage API-call counts, and what cannot currently be
+reproduced.
 
 ---
 
@@ -155,10 +173,8 @@ git lfs install
 git clone <repo-url>
 ```
 
-A standalone archive (`QIMG-7.zip`) containing the full tree is also distributed
-for hosts that do not support Git LFS (e.g. Zenodo, where it is published with a
-DOI). If you cloned without LFS support you will see small pointer files instead
-of images — install Git LFS and run `git lfs pull`.
+If you cloned without LFS support you will see small pointer files instead of
+images — install Git LFS and run `git lfs pull`.
 
 ---
 

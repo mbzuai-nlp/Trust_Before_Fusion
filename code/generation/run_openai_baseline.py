@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Run a quick multimodal baseline over regime JSONL using OpenAI Responses API.
+"""Run a multimodal baseline over a QIMG-7 regime JSONL using the OpenAI Responses API.
 
-This script is intentionally standalone so you can start experimenting immediately,
-even before fully wiring MM-MIRAGE into the old repo.
+This script is standalone: it takes a benchmark JSONL and writes predictions,
+with no dependency on the rest of the pipeline.
 
 It uses both:
 - text evidence (top-k text snippets)
@@ -25,6 +25,11 @@ import urllib.request
 from urllib.parse import urlparse
 from pathlib import Path
 from typing import Iterable, List
+
+import os as _os
+import sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+from common.prompt_fields import model_facing_evidence  # noqa: E402
 
 try:
     from openai import OpenAI
@@ -80,7 +85,7 @@ def url_to_data_url(url: str, timeout_s: float = 20.0, max_bytes: int = 20 * 102
     req = urllib.request.Request(
         url,
         headers={
-            'User-Agent': 'Mozilla/5.0 (compatible; MM-MIRAGE/1.0)',
+            'User-Agent': 'Mozilla/5.0 (compatible; QIMG-7/1.0)',
             'Accept': 'image/avif,image/webp,image/png,image/jpeg,image/gif,*/*;q=0.8',
         },
     )
@@ -230,19 +235,21 @@ def call_model(client: OpenAI, model: str, content: List[dict], backend: str, ma
 
 
 def build_text_prompt(row: dict) -> str:
+    # Only allow-listed fields reach the prompt; see code/common/prompt_fields.py.
+    evidence = model_facing_evidence(row, 'answer')
     lines = []
     lines.append('Answer the question using the provided evidence.')
     lines.append('Prefer information that is consistent across sources. If the evidence is unreliable or conflicting, say you are uncertain.')
     lines.append('Do not discuss benchmark construction metadata.')
     lines.append('')
-    lines.append(f"QUESTION: {row['question']}")
+    lines.append(f"QUESTION: {evidence['question']}")
     lines.append('')
     lines.append('TEXT EVIDENCE:')
-    for i, ev in enumerate(row.get('text_evidence', []), start=1):
+    for i, ev in enumerate(evidence['text_evidence'], start=1):
         lines.append(f"[{i}] Title: {ev.get('title','')}")
         lines.append(f"    Snippet: {ev.get('snippet','')}")
         lines.append(f"    URL: {ev.get('url','')}")
-    img = row.get('image_evidence', {})
+    img = evidence['image_evidence']
     lines.append('')
     lines.append('IMAGE EVIDENCE METADATA:')
     lines.append(f"Title: {img.get('title','')}")

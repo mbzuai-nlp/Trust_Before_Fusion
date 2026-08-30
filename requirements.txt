@@ -1,6 +1,12 @@
-pandas
-numpy
-scikit-learn
-requests
-tqdm
-openai
+# Dependencies for the released code under code/.
+# Versions are those of the environment that produced the released artifacts.
+# Python 3.10 (see .python-version).
+
+pandas==2.3.3
+numpy==2.0.2
+scikit-learn==1.7.2
+openai==2.33.0
+
+# `requests` and `tqdm` were listed here previously but are not imported by any
+# script under code/. They are dependencies of the image-construction code,
+# which is not part of this release -- see requirements-construction.txt.

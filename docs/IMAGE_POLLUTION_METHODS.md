@@ -1,4 +1,4 @@
-# MM-Mirage Image Pollution Methods
+# QIMG-7 Image Pollution Methods
 
 7 attack types, 2 records each → **14 polluted records per question**.
 
